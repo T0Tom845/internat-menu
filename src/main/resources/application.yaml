@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: internat-menu
+  datasource:
+    url: jdbc:postgresql://localhost:5433/internat-menu
+    username: internat
+    password: internat
+  flyway:
+    schemas:
+      - public
+      - catalogue
+  jpa:
+    show-sql: true
