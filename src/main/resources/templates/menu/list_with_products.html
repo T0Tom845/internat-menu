@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <title>Меню с продуктами</title>
+</head>
+<body>
+<div th:replace="header :: header"></div>
+<h2 class="ui header">Список меню с полным списком продуктов</h2>
+
+<table class="ui celled table">
+    <thead>
+    <tr>
+        <th>Дата меню</th>
+        <th>Блюда</th>
+        <th>Продукты</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="menu : ${menus}">
+        <td th:text="${#dates.format(menu.dateMenu, 'dd.MM.yyyy')}">Дата меню</td>
+        <td>
+            <ul class="ui list" th:each="dish : ${menu.dishes}">
+                <li th:text="${dish.name}">Название блюда</li>
+            </ul>
+        </td>
+        <td>
+            <ul class="ui list" th:each="dish : ${menu.dishes}">
+                <li th:each="ingredient : ${dish.ingredients}" th:text="${ingredient.product.name}">Название продукта</li>
+            </ul>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+
+</body>
+</html>

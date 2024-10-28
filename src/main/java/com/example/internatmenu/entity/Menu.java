@@ -10,23 +10,22 @@ import java.util.List;
 @Entity
 @Table(name = "menu")
 public class Menu {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "date")
-    private Date date;
+    @Column(name = "date_menu", nullable = false)
+    private Date dateMenu;
 
-    @Column(name = "meal_type")
-    private String mealType;
-
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "menu_dishes",
+            name = "menu_dish",
             joinColumns = @JoinColumn(name = "menu_id"),
             inverseJoinColumns = @JoinColumn(name = "dish_id")
     )
     private List<Dish> dishes;
 
+    public void removeDish(Dish dish) {
+        this.dishes.remove(dish);
+    }
 }

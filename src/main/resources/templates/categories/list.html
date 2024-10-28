@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+</head>
+<body>
+<div th:replace="header :: header"></div>
+<h2>Список категорий</h2>
+<table class="ui celled table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Название</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="category : ${categories}">
+        <td th:text="${category.id}"></td>
+        <td th:text="${category.name}"></td>
+        <td>
+            <a class="small ui button" th:href="@{/categories/edit/{id}(id=${category.id})}">Редактировать</a>
+            <a class="small ui button red" th:href="@{/categories/delete/{id}(id=${category.id})}">Удалить</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a class="ui button primary" th:href="@{/categories/new}">Добавить новую категорию</a>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+</head>
+<body>
+<div th:replace="~{header :: header}"></div>
+<h2 class="ui header">Затраты на меню</h2>
+
+<table class="ui celled table">
+  <thead>
+  <tr>
+    <th>ID Меню</th>
+    <th>Дата Меню</th>
+    <th>Сумма затрат</th>
+    <th>Средние затраты</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="menuCost : ${menuCosts}">
+    <td th:text="${menuCost.menuId}">ID Меню</td>
+    <td th:text="${#dates.format(menuCost.dateMenu, 'dd.MM.yyyy')}">Дата Меню</td>
+    <td th:text="${menuCost.totalCost}">Сумма затрат</td>
+    <td th:text="${menuCost.averageCost}">Средние затраты</td>
+  </tr>
+  </tbody>
+</table>
+
+<a th:href="@{/menus}" class="ui button">Вернуться к меню</a>
+
+</body>
+</html>

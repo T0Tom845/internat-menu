@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+</head>
+<body>
+<div th:replace="header :: header"></div>
+<h2>Изменить блюдо</h2>
+<form class="ui form" th:action="@{/dishes/edit/{id}(id=${dish.id})}" method="post">
+    <div class="field">
+        <label>Название</label>
+        <input type="text" name="name" th:value="${dish.name}" required>
+    </div>
+    <button class="ui button" type="submit">Сохранить изменения</button>
+</form>
+</body>
+</html>

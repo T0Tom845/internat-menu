@@ -1,68 +1,62 @@
 package com.example.internatmenu.controller;
 
 import com.example.internatmenu.entity.Product;
-import com.example.internatmenu.repository.ProductRepository;
+import com.example.internatmenu.service.ProductCategoryService;
 import com.example.internatmenu.service.ProductService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 @Controller
 @RequestMapping("/products")
-@RequiredArgsConstructor
 public class ProductController {
 
+    @Autowired
+    private ProductService productService;
 
-    private final ProductService productService;
+    @Autowired
+    private ProductCategoryService productCategoryService;
 
     @GetMapping
     public String listProducts(Model model) {
-        Iterable<Product> products = productService.findAll();
+        List<Product> products = productService.getAllProducts();
         model.addAttribute("products", products);
-        return "product-list";
+        return "product/list";
     }
 
     @GetMapping("/new")
-    public String showProductForm(Model model) {
+    public String showNewProductForm(Model model) {
         model.addAttribute("product", new Product());
-        return "product-new-form";
+        model.addAttribute("categories", productCategoryService.findAll());
+        return "product/new-form";
     }
 
     @PostMapping("/new")
-    public String saveProduct(@ModelAttribute("product") @Valid Product product, BindingResult result) {
-        if (result.hasErrors()) {
-            return "product-form";
-        }
-        productService.save(product);
+    public String createNewProduct(@ModelAttribute Product product) {
+        productService.saveProduct(product);
         return "redirect:/products";
     }
 
-    @PostMapping("/edit/{id:\\d+}")
-    public String editProduct(@ModelAttribute Product product) {
-        productService.updateProduct(product);
-        return "redirect:/products";
-    }
-    @GetMapping("/edit/{id:\\d+}")
-    public String editProduct(@PathVariable("id") Long id, Model model) {
-        Product product = productService.findById(id);
+    @GetMapping("/edit/{id}")
+    public String showEditProductForm(@PathVariable("id") Long id, Model model) {
+        Product product = productService.getProductById(id).orElseThrow();
         model.addAttribute("product", product);
-        return "product-edit-form";
+        model.addAttribute("categories", productCategoryService.findAll());
+        return "product/edit-form";
+    }
+    @PostMapping("/edit/{id}")
+    public String updateProduct(@PathVariable("id") Long id, @ModelAttribute Product product) {
+        product.setId(id);
+        productService.saveProduct(product);
+        return "redirect:/products";
     }
 
-
-
-    @GetMapping("/delete/{id:\\d+}")
+    @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable("id") Long id) {
-        productService.deleteById(id);
+        productService.deleteProduct(id);
         return "redirect:/products";
     }
 }

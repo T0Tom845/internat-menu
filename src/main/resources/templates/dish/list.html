@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+</head>
+<body>
+<div th:replace="~{header :: header}"></div>
+<h2>Список блюд</h2>
+<table class="ui celled table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Название</th>
+        <th>Ингредиенты</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="dish : ${dishes}">
+        <td th:text="${dish.id}"></td>
+        <td th:text="${dish.name}"></td>
+        <td>
+            <ul>
+                <li th:each="ingredient : ${dish.ingredients}">
+                    <span th:text="${ingredient.product.name}"></span>
+                    <span th:text="${ingredient.quantity}"></span>
+                    <a class="small ui icon button red"
+                       th:href="@{/dishes/deleteIngredient/{dishId}/{ingredientId}(dishId=${dish.id}, ingredientId=${ingredient.id})}">
+                        <i class="trash icon"></i></a>
+                </li>
+            </ul>
+        </td>
+        <td>
+            <a class="small ui button" th:href="@{/dishes/edit/{id}(id=${dish.id})}">Редактировать</a>
+            <a class="small ui button" th:href="@{/dishes/addIngredient/{id}(id=${dish.id})}">Добавить ингредиент</a>
+            <a class="small ui button red" th:href="@{/dishes/delete/{id}(id=${dish.id})}">Удалить</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a class="ui button primary" th:href="@{/dishes/new}">Добавить новое блюдо</a>
+</body>
+</html>

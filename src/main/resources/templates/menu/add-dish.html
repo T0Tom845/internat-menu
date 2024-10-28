@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+</head>
+<body>
+<div th:replace="~{header :: header}"></div>
+<div class="ui container" >
+  <form th:action="@{/menus/addDish/{id}(id = ${menuId})}" method="post" class="ui form">
+    <h2 class="ui header">Добавить блюдо в меню</h2>
+
+    <div class="field">
+      <label for="dish">Выберите блюдо</label>
+      <select id="dish" name="dishId" class="ui dropdown" required>
+        <option value="">Выберите блюдо</option>
+        <option th:each="dish : ${dishes}" th:value="${dish.id}" th:text="${dish.name}"></option>
+      </select>
+    </div>
+
+    <button type="submit" class="ui button primary">Добавить в меню</button>
+  </form>
+</div>
+
+</form>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+  <title>Добавить ингредиенты к блюду</title>
+</head>
+<body>
+<div th:replace="header :: header"></div>
+<h2>Добавить ингредиенты к блюду</h2>
+
+<form action="#" th:action="@{/dishes/addIngredient/{id}(id = ${dishId})}" method="post" class="ui form">
+  <div class="field">
+    <label for="product">Выберите продукт</label>
+    <select id="product" name="productId" class="ui dropdown" required>
+      <option value="">Выберите продукт</option>
+      <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.name}"></option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="quantity">Количество</label>
+    <input type="number" id="quantity" name="quantity" placeholder="Введите количество" required>
+  </div>
+
+  <button type="submit" class="ui button primary">Добавить ингредиент</button>
+</form>
+
+</body>
+</html>
